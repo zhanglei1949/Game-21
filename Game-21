@@ -1,0 +1,155 @@
+// number game;
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <ctime> 
+#include <cstdlib>//get all the lib in;
+using namespace std;
+string cor(int n); //define a function returns a string;
+void sort(int poker[52]);//define a function to sort out the cards;
+float calcu(int a);//calculate the corresponding value of card;
+bool man(float sum1,string inf1);//function return a bool value, the period for human player;
+void com(float sum1,float sum2,string inf2);//period for computer player;
+int poker[52];
+int j=2,count1,count2;
+float sum1,sum2;// global variables;
+int main(){
+	srand(time(NULL));
+	string inf1;
+	string inf2;
+	int i;
+	float sum1,sum2;
+	count1=2;count2=2;
+    for (i=0;i<52;++i){
+    	poker[i]=i;
+    }
+	sort(poker);
+	inf1=cor(poker[0]);
+	sum1+=calcu(poker[0]);
+	inf1+=cor(poker[1]);
+	sum1+=calcu(poker[1]);
+	cout<<"玩家获得："<<inf1<<endl; 
+    if (man (sum1,inf1)){
+    	for (i=0;i<2;++i){
+    		++j;
+            inf2+=cor(poker[j]);
+            sum2+=calcu(poker[j]);
+		}
+        cout<<"电脑获得："<<inf2; 
+    	com (sum1,sum2,inf2);
+    }
+    cout<<"cout1 "<<count1<<" count2 "<<count2<<endl;
+    return 0;
+} 
+string cor(int n){
+	string inf;
+	stringstream ss;
+	switch (n/13){
+		case 0: inf+="heitao "; break; //using switch;
+		case 1: inf+="hongtao "; break;
+		case 2: inf+="meihua ";  break;
+		case 3: inf+="fangkuai ";  break;
+	}
+	switch (n%13){
+		case 0 : inf+="A"; break;
+		case 10: inf+="J"; break; 
+		case 11: inf+="Q"; break;
+		case 12: inf+="K";  break;	
+	}
+	if ((n%13)>0&&(n%13)<10){
+		ss<< (n+1)%13 ;
+		inf += ss.str();
+	}
+	return (inf+"\t"); 
+}
+void sort(int poker[52]){
+	int k,l,m;
+	srand(time(NULL));
+	for (k=51;k>0;--k){
+		l=rand()%k+0;
+		m=poker[k];
+		poker[k]=poker[l];
+		poker[l]=m;
+		cout<<k<<"."<<poker[k]<<" "<<poker[l]<<endl;
+	}
+}
+float calcu(int a){
+	float num;
+    if (a%13==10||a%13==11||a%13==12) num=0.5; 
+    else if(a%13>=0&&a%13<=9) num=(a%13)+1; 
+    return num;
+}
+bool man(float sum1,string inf1){
+	bool boo;
+	char jud;
+	while (true){	
+		cout<<"是否继续要牌?(Y/N)"<<endl;
+		cin>>jud;
+		if (jud=='N') {
+			boo=true;
+			break;
+		} 
+		else if (jud=='Y'){ 
+		  ++j;
+		  ++count1;
+		  inf1+=cor(poker[j]);
+	      sum1+=calcu(poker[j]);
+		  cout<<"继续要牌:"<<inf1<<endl;
+		}
+		if (sum1>21){
+			boo=false;
+			cout<<sum1<<endl;
+			cout<<"You lose(玩家超过21)"<<endl;
+			break;
+		} 
+	}
+	cout<<"sum1 "<<sum1<<endl;
+	return boo;
+}
+void com(float sum1,float sum2,string inf2){
+	++j;
+	while (true){
+		if (sum2==21&&sum1!=21){
+			cout<<"You lose（电脑21）"<<endl;
+			break;
+		}
+		else if(sum2==21&&sum1==21){
+			if (count1>count2) {
+				cout<<"you lose（都21但电脑牌少）" ;break;
+			}
+			else if (count1==count2) {
+				cout <<"ok（不分胜负）";break;
+			}
+			else if (count1<count2) cout <<"you win（玩家牌少）";break;
+		}
+		else if (sum2>21){
+			cout<<"you win（电脑超过21）"<<endl;break;
+		}
+		else if (sum2<21){
+			if (sum2>sum1) {
+				cout<<"You lose(电脑 比玩家大?)"<<endl;break;
+			}
+			else if (sum2<sum1){
+				++j;
+				++count2;
+				inf2+=cor(poker[j]);
+				sum2+=calcu(poker[j]);
+				cout<<"电脑继续要牌："<<inf2<<endl; 
+			}
+			else if (sum2==sum1){
+				if (count1>count2) {
+					cout<<"you lose（同大，牌数）"<<endl;break;
+				}
+				else {
+					j++;
+					++count2;
+					inf2+=cor(poker[j]);
+				    sum2+=calcu(poker[j]);
+					cout<<"电脑继续要牌："<<inf2<<endl; 
+				}
+			}
+		}	
+	}
+	cout<<"count1"<<count1<<"count2"<<count2<<endl;
+	cout<<"sum2 "<<sum2<<" "<<j<<endl;
+}
