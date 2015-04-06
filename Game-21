@@ -160,13 +160,10 @@ void com(float sum1,float sum2,string inf2){
 					j++;
 					++count2;
 					inf2+=cor(poker[j]);
-				    sum2+=calcu(poker[j]);
+				        sum2+=calcu(poker[j]);
 					cout<<"computer now have:"<<inf2<<endl; 
 				}
 			}
 		}
-	cout<<"sum2 "<<sum2<<" "<<j<<endl;	
 	}
-	cout<<"count1"<<count1<<"count2"<<count2<<endl;
-
 }
