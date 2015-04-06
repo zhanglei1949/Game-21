@@ -1,4 +1,4 @@
-//Game 21.
+ //Game 21.
 #include <iostream>
 #include <string>
 #include <sstream>//For the use of lib of string.
@@ -7,19 +7,19 @@
 #include <cmath> 
 using namespace std;
 string cor(int n); 
-void sort(int poker[52]); //Sort out the cards.
-float calcu(int a); //calculate the value of certain card.
-int man(float sum1,string inf1); //The period for human player.
-void com(float sum1,float sum2,string inf2); //The period for computer player.  
-int poker[52]; //To build up a global array functioning as 52 cards of poker;
+void sort(int poker[52]);//Sort out the cards.
+float calcu(int a);//calculate the value of certain card.
+int man(float sum1,string inf1);//The period for human player.
+void com(float sum1,float sum2,string inf2);//The period for computer player.  
+int poker[52];//To build up a global array functioning as 52 cards of poker;
 int j=2,count1=2,count2=2;
-float sum1,sum2; //five global varibles.
+float sum1,sum2;//five global varibles.
 int main(){
 	srand(time(NULL));
 	string inf1;
 	string inf2;
 	int i;
-	while (true){ //Use while to make the game repeatable.
+	while (true){//Use while to make the game repeatable.
 		char jud;
 		for (i=0;i<52;++i){
          	poker[i]=i;
@@ -50,19 +50,24 @@ int main(){
 	   	   cout<<"Please enter Y or N!"<<endl;
 	   	   cin>>jud;
 	   }
-	   if (jud=='Y') cout<<"Another round"<<endl;//determine whether to continue or not.
-	   if (jud=='N') cout<<"Game over"<<endl;break;
-	}
+	   if (jud=='Y') {
+	   cout<<"Another round"<<endl;//determine whether to continue or not.
+       }
+	   if (jud=='N') {
+	   cout<<"Game over"<<endl;break;
+	   }
+   
+   }
     return 0;
-} 
+}
 string cor(int n){//return the corresponding string of cards.
 	string inf;
 	stringstream ss;
 	switch (n/13){
-		case 0: inf+="Spade\t"; break; 
-		case 1: inf+="Heart\t"; break;
-		case 2: inf+="Club\t";  break;
-		case 3: inf+="Diamond\t";  break;
+		case 0: inf+="\t Spade "; break; 
+		case 1: inf+="\t Heart "; break;
+		case 2: inf+="\t Club ";  break;
+		case 3: inf+="\t Diamond ";  break;
 	}
 	switch (n%13){
 		case 0 : inf+="A"; break;
@@ -74,7 +79,7 @@ string cor(int n){//return the corresponding string of cards.
 		ss<< (n+1)%13 ;
 		inf += ss.str();
 	}
-	return (inf+" "); 
+	return (inf); 
 }
 void sort(int poker[52]){//sor the carrds ranomly.
 	int k,l,m;
@@ -160,10 +165,13 @@ void com(float sum1,float sum2,string inf2){
 					j++;
 					++count2;
 					inf2+=cor(poker[j]);
-				        sum2+=calcu(poker[j]);
+				    sum2+=calcu(poker[j]);
 					cout<<"computer now have:"<<inf2<<endl; 
 				}
 			}
 		}
+	cout<<"sum2 "<<sum2<<" "<<j<<endl;	
 	}
+	cout<<"count1"<<count1<<"count2"<<count2<<endl;
+
 }
